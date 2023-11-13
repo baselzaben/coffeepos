@@ -31,7 +31,40 @@ class LoginProvider extends ChangeNotifier {
   String? Appmessage;
   String? terms;
   String? version;
+  String? link;
+  String? show;
 ////
+
+  getshow() {
+    return show;
+  }
+
+  setshow(String show) {
+    this.show = show;
+    notifyListeners();
+  }
+
+
+  getlink() {
+    return link;
+  }
+
+  setlink(String link) {
+    this.link = link;
+    notifyListeners();
+  }
+
+
+  getip() {
+    return ip;
+  }
+
+  setip(String ip) {
+    this.ip = ip;
+    notifyListeners();
+  }
+
+
   getversion() {
     return version;
   }

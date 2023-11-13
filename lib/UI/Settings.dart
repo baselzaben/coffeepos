@@ -14,6 +14,7 @@ import '../provider/Them.dart';
 import '../provider/languageProvider.dart';
 import '../widget/Widgets.dart';
 import 'Bill.dart';
+import 'ChangePass.dart';
 import 'Home.dart';
 import 'package:arabic_font/arabic_font.dart';
 import 'package:http/http.dart' as http;
@@ -332,6 +333,49 @@ var Terms='';
                                       ],
                                     )),
 
+
+                                SizedBox(
+                                  height: 6,
+                                ),
+                                Divider(
+                                    thickness: 1.0, color: Colors.black
+                                ),
+                                GestureDetector(
+                                  onTap: () async {
+
+
+
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ChangePass()),
+                                    );
+
+
+
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.change_circle_outlined,
+                                        color: HexColor(ThemP.getcolor()),
+                                        size: 35 ,
+                                      ),
+                                      SizedBox(
+                                        width: 6,
+                                      ),
+                                      Text(
+                                        'تغيير كلمه المرور',
+                                        style: ArabicTextStyle(
+                                            arabicFont: ArabicFont.tajawal,
+                                            fontSize: 17.5 ,
+                                            color:HexColor(Globalvireables.black),
+                                            fontWeight: FontWeight.w400),
+                                      )
+                                    ],
+                                  ),
+                                ),
+
                                 SizedBox(
                                   height: 40,
                                 ),
@@ -476,7 +520,6 @@ Spacer(),
                                                   16 * unitHeightValue),
                                             ),
                                             actions: [
-
 
                                             ],
                                           ),
@@ -658,6 +701,8 @@ SizedBox(height: 15,),
                       ),
                     )),
                     Spacer(),
+
+
                   ],
                 ),
                 Spacer(),

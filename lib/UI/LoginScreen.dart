@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../GlobalVar.dart';
 import '../HexaColor.dart';
 import 'package:flutter/services.dart';
@@ -36,14 +38,23 @@ class _LoginScreenState extends State<LoginScreen> {
   var isMackOs=false;
 
   var check = false;
+  Timer? timer;
 
+var show=0;
   @override
   void initState() {
+
+    GetAppInfo(context);
+    timer = Timer.periodic(Duration(seconds: 60), (Timer t) => GetAppInfo(context));
 
     Getrememper();
     super.initState();
   }
 var Terms;
+
+
+  int VERSION=0;
+
   @override
   void dispose() {
     super.dispose();
@@ -490,129 +501,137 @@ margin: EdgeInsets.only(top:Globalvireables.getDeviceType()=='tablet'? 44:0),
     prefs = await SharedPreferences.getInstance();
     var Loginprovider = Provider.of<LoginProvider>(context, listen: false);
     var l = Provider.of<Language>(context, listen: false);
-
-    showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-          title:  Text(l.Llanguage('login')),
-          content: Text(l.getLanguage()=="AR"?'جار تسجيل الدخول ...':'Logging in...'),
-        ));
-
-
-
-    print("UUSER" + username.toString());
-    print("PPass" + password.toString());
+try {
+  showDialog(
+      context: context,
+      builder: (_) =>
+          AlertDialog(
+            title: Text(l.Llanguage('login')),
+            content: Text(l.getLanguage() == "AR"
+                ? 'جار تسجيل الدخول ...'
+                : 'Logging in...'),
+          ));
 
 
-    var map = new Map<String, dynamic>();
-    map['username'] = username;
-    map['password'] = password;
+  print("UUSER" + username.toString());
+  print("PPass" + password.toString());
+
+
+  var map = new Map<String, dynamic>();
+  map['username'] = username;
+  map['password'] = password;
 
 
   //  try {
 
-      Uri apiUrl = Uri.parse('https://poscoffeesystem.000webhostapp.com/login.php');
+  Uri apiUrl = Uri.parse('https://poscoffeesystem.000webhostapp.com/login.php');
 
-      http.Response response = await http
-          .post(apiUrl, body:map,)
-          .whenComplete(() => Navigator.pop(context));
+  http.Response response = await http
+      .post(apiUrl, body: map,)
+      .whenComplete(() => Navigator.pop(context));
 
-      if (response.statusCode == 200) {
+  if (response.statusCode == 200) {
+    List<dynamic> body = jsonDecode(response.body);
+    print(body.toString() + "  ghghghghg");
 
-      List<dynamic> body = jsonDecode(response.body);
-      print(body.toString() +"  ghghghghg");
-
-      List<LoginModel> Appoiments = body
-          .map(
-            (dynamic item) => LoginModel.fromJson(item),
-      ).toList();
-
-
-      print(body.toString() +"  ghghghghg");
+    List<LoginModel> Appoiments = body
+        .map(
+          (dynamic item) => LoginModel.fromJson(item),
+    ).toList();
 
 
-try {
-  Loginprovider.setusername(Appoiments[0].username.toString());
-  Loginprovider.setid(Appoiments[0].id.toString());
-  Loginprovider.setname(Appoiments[0].name.toString());
-  Loginprovider.setcoffeeId(Appoiments[0].coffeeId.toString());
-  Loginprovider.setimage(Appoiments[0].image.toString());
-  Loginprovider.setpasswordd(Appoiments[0].passwordd.toString());
-  Loginprovider.setphone(Appoiments[0].phone.toString());
-  Loginprovider.setusertype(Appoiments[0].usertype.toString());
-
-  Loginprovider.setcoffename(Appoiments[0].coffename.toString());
-  Loginprovider.setlocationn(Appoiments[0].locationn.toString());
-
-  Loginprovider.setmessage(Appoiments[0].message.toString());
-
-  ////
-  Loginprovider.setinititem(Appoiments[0].inititem.toString());
-  Loginprovider.setdebitpersion(Appoiments[0].debitpersion.toString());
-  Loginprovider.setdebtbook(Appoiments[0].debtbook.toString());
-  Loginprovider.setaddqt(Appoiments[0].addqt.toString());
-  Loginprovider.setreport(Appoiments[0].report.toString());
-
-  ///
+    print(body.toString() + "  ghghghghg");
 
 
+    try {
+      Loginprovider.setusername(Appoiments[0].username.toString());
+      Loginprovider.setid(Appoiments[0].id.toString());
+      Loginprovider.setname(Appoiments[0].name.toString());
+      Loginprovider.setcoffeeId(Appoiments[0].coffeeId.toString());
+      Loginprovider.setimage(Appoiments[0].image.toString());
+      Loginprovider.setpasswordd(Appoiments[0].passwordd.toString());
+      Loginprovider.setphone(Appoiments[0].phone.toString());
+      Loginprovider.setusertype(Appoiments[0].usertype.toString());
+
+      Loginprovider.setcoffename(Appoiments[0].coffename.toString());
+      Loginprovider.setlocationn(Appoiments[0].locationn.toString());
+
+      Loginprovider.setmessage(Appoiments[0].message.toString());
+
+      ////
+      Loginprovider.setinititem(Appoiments[0].inititem.toString());
+      Loginprovider.setdebitpersion(Appoiments[0].debitpersion.toString());
+      Loginprovider.setdebtbook(Appoiments[0].debtbook.toString());
+      Loginprovider.setaddqt(Appoiments[0].addqt.toString());
+      Loginprovider.setreport(Appoiments[0].report.toString());
+
+      ///
 
 
-
-  prefs = await SharedPreferences.getInstance();
+      prefs = await SharedPreferences.getInstance();
       await prefs.setString('userid', Appoiments[0].username.toString());
-  await prefs.setString('message', Appoiments[0].message.toString());
+      await prefs.setString('message', Appoiments[0].message.toString());
 
-  print(Appoiments[0].message.toString() + "MMMMMMMMMM");
-
-
-
-
-      }catch(_){}
-        if (Appoiments[0].username.toString().trim() == username
-        && Appoiments[0].passwordd.toString().trim() == password) {
-
-          prefs = await SharedPreferences.getInstance();
-
-          if(check){
-            prefs.setString('username',username.toString());
-            prefs.setString('password',password.toString());
-          }
-
-
-          Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(
-                builder: (context) => Home(),
-              ),
-                  (Route<dynamic> route) => false);
-
-
-        } else {
-          showDialog(
-              context: context,
-              builder: (_) => AlertDialog(
+      print(Appoiments[0].message.toString() + "MMMMMMMMMM");
+    } catch (_) {
+      showDialog(
+          context: context,
+          builder: (_) =>
+              AlertDialog(
                 title: Text(l.Llanguage('login')),
                 content: Text(l.Llanguage('loginerror')),
               ));
-        }
-
-  } else{
-    showDialog(
-    context: context,
-    builder: (_) => AlertDialog(
-    title: Text(l.Llanguage('login')),
-    content: Text(l.Llanguage('loginerror')),
-    ));
-
     }
+    if (Appoiments[0].username.toString().trim() == username
+        && Appoiments[0].passwordd.toString().trim() == password) {
+      prefs = await SharedPreferences.getInstance();
 
+      if (check) {
+        prefs.setString('username', username.toString());
+        prefs.setString('password', password.toString());
+      }
+
+
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => Home(),
+          ),
+              (Route<dynamic> route) => false);
+    } else {
+      showDialog(
+          context: context,
+          builder: (_) =>
+              AlertDialog(
+                title: Text(l.Llanguage('login')),
+                content: Text(l.Llanguage('loginerror')),
+              ));
+    }
+  } else {
+    showDialog(
+        context: context,
+        builder: (_) =>
+            AlertDialog(
+              title: Text(l.Llanguage('login')),
+              content: Text(l.Llanguage('loginerror')),
+            ));
+  }
+}catch(_){
+  showDialog(
+      context: context,
+      builder: (_) =>
+          AlertDialog(
+            title: Text(l.Llanguage('login')),
+            content: Text(l.Llanguage('loginerror')),
+          ));
+
+}
   }
 
 
 
   Future<List<AppModel>> GetAppInfo(
       BuildContext c) async {
-    Uri postsURL = Uri.parse('https://poscoffeesystem.000webhostapp.com/itemssalesreport.php');
+    Uri postsURL = Uri.parse('https://poscoffeesystem.000webhostapp.com/getapp.php');
     try {
       var Loginprovider = Provider.of<LoginProvider>(context, listen: false);
       http.Response res = await http.post(
@@ -630,10 +649,19 @@ try {
 
 
         Loginprovider.setterms(Doctors[0].terms.toString());
-        Loginprovider.setAppmessage(Doctors[0].terms.toString());
-        Loginprovider.setversion(Doctors[0].terms.toString());
+        Loginprovider.setAppmessage(Doctors[0].message.toString());
+        Loginprovider.setversion(Doctors[0].version.toString());
+        Loginprovider.setlink(Doctors[0].link.toString());
+        Loginprovider.setshow(Doctors[0].show.toString());
 
+        print(Doctors[0].show.toString()+ " ggggg");
 
+if(Doctors[0].show.toString()=='1') {
+  if (show == 0)
+    showLoaderDialog(context, Doctors[0].message.toString(),
+        int.parse(Doctors[0].version.toString()), Doctors[0].link.toString());
+  show = 1;
+}
 
         return Doctors;
       } else {
@@ -651,6 +679,113 @@ try {
 
 
 
+  showLoaderDialog(BuildContext context,String desc,int version,String link) {
+    showModalBottomSheet(
+
+        context: context,
+
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(20),
+          ),
+        ),
+        clipBehavior: Clip.antiAliasWithSaveLayer,
 
 
+        builder: (context) {
+          return SizedBox(
+            height: 200,
+            child: Column(
+              children: <Widget> [
+                SizedBox(height: 20,),
+                Center(
+                  child: Text(
+                   'ملاحظه',
+                    style: ArabicTextStyle(
+                        arabicFont: ArabicFont.tajawal,
+                        fontSize: 17.5 * (MediaQuery
+                            .of(context)
+                            .size
+                            .height * 0.00122),
+                        color: HexColor(Globalvireables.black),
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
+                SizedBox(height: 20,),
+
+                Center(
+                  child: Text(
+                    textAlign: TextAlign.center,
+                      desc, style: ArabicTextStyle(
+                        arabicFont: ArabicFont.tajawal,
+                        fontSize: 14 * (MediaQuery
+                            .of(context)
+                            .size
+                            .height * 0.00122),
+                        color: HexColor(Globalvireables.black),
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
+
+                Spacer(),
+                SizedBox(height: 20,),
+1>VERSION?Padding(
+  padding: const EdgeInsets.all(8.0),
+  child: Align(
+      alignment: Alignment.bottomCenter,
+      child: Container(
+        height: 40,
+        width:
+        MediaQuery.of(context).size.width / 2,
+        margin: EdgeInsets.only(top: 10, bottom: 5),
+        color: HexColor(Globalvireables.white),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            primary: HexColor(Provider.of<Them>(context, listen: false).getcolor()),
+          ),
+          child: Text(
+            'تحديث التطبيق',
+            style: ArabicTextStyle(
+                arabicFont: ArabicFont.tajawal,
+                color:
+                HexColor(Globalvireables.white),
+                fontSize: 14 * (MediaQuery
+                    .of(context)
+                    .size
+                    .height * 0.00122)),
+          ),
+          onPressed: () async {
+            launch(link);
+            //_openUrl(link);
+          },
+        ),
+      ),
+    ),
+)
+:Container(
+
+)
+
+              ],
+            ),
+          );
+        });
+
+
+  }
+
+  Future<void> _openUrl(String url) async {
+    try {
+      launch("market://details?id=" + url);
+    } on PlatformException catch(e) {
+      launch("https://play.google.com/store/apps/details?id=" + url);
+    } finally {
+      launch("https://play.google.com/store/apps/details?id=" + url);
+    }
+   /* if ( await canLaunch(url)) {
+       launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }*/
+  }
 }

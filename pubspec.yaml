@@ -49,6 +49,7 @@ dependencies:
   flutter_svg: ^2.0.7
   fl_chart: ^0.64.0
   syncfusion_flutter_charts: ^23.1.43
+  url_launcher: any
 
 dev_dependencies:
   flutter_test:
@@ -80,6 +81,7 @@ flutter:
     - assets/background2.png
     - assets/persion2.png
     - assets/null.png
+    - assets/repass.png
     - assets/min.svg
     - assets/qticon.svg
 
