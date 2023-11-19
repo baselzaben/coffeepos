@@ -478,7 +478,7 @@ SizedBox(height: 30,),
 
   Future<List<PermisionModel>> getPermision(
       BuildContext c) async {
-    Uri postsURL = Uri.parse('https://poscoffeesystem.000webhostapp.com/getPermision.php');
+    Uri postsURL = Uri.parse('https://coffepoint.net/Api/getPermision.php');
     try {
 
       var Loginprovider = Provider.of<LoginProvider>(context, listen: false);
@@ -551,7 +551,7 @@ if(!setpermision) {
 
  UploadPermision(
       BuildContext c) async {
-    Uri postsURL = Uri.parse('https://poscoffeesystem.000webhostapp.com/UpdatePermision.php');
+    Uri postsURL = Uri.parse('https://coffepoint.net/Api/UpdatePermision.php');
       var l = Provider.of<Language>(context, listen: false);
 
       var Loginprovider = Provider.of<LoginProvider>(context, listen: false);

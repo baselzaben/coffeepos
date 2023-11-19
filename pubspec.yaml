@@ -84,6 +84,7 @@ flutter:
     - assets/repass.png
     - assets/min.svg
     - assets/qticon.svg
+    - assets/nodata.svg
 
 
   # To add assets to your application, add an assets section, like this:

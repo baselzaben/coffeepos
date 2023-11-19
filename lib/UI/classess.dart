@@ -11,6 +11,7 @@ import '../GlobalVar.dart';
 import '../HexaColor.dart';
 import 'package:flutter/services.dart';
 
+import '../Model/ImageModel.dart';
 import '../Model/classessModel.dart';
 import '../provider/Them.dart';
 import '../provider/languageProvider.dart';
@@ -31,7 +32,7 @@ class _NotificationsState extends State<classess> {
 
   TextEditingController dateinputC = TextEditingController();
   TextEditingController _ClassDescFieldController = TextEditingController();
-
+var PATH='';
   @override
   void dispose() {
     super.dispose();
@@ -328,8 +329,12 @@ class _NotificationsState extends State<classess> {
                                           .toList(),
                                     );
                                   } else {
+
                                     return Center(
-                                        child: CircularProgressIndicator());
+
+                                        child: CircularProgressIndicator()
+
+                                                 );
                                   }
                                 },
                               ),
@@ -366,7 +371,7 @@ class _NotificationsState extends State<classess> {
 
   Future<List<classessModel>> getAllClasses(
       BuildContext c, String coffeeid) async {
-    Uri postsURL = Uri.parse('https://poscoffeesystem.000webhostapp.com/getClassess.php');
+    Uri postsURL = Uri.parse('https://coffepoint.net/Api/getClassess.php');
     try {
       var map = new Map<String, dynamic>();
       map['coffeid'] = coffeeid;
@@ -403,13 +408,80 @@ class _NotificationsState extends State<classess> {
     return showDialog(
         context: context,
         builder: (context) {
+          return StatefulBuilder(builder: (context, setState) {
           return AlertDialog(
             title:
                 Center(child: Text(LanguageProvider.Llanguage('addclasses'))),
-            content: TextField(
-              textAlign: TextAlign.center,
-              controller: _ClassDescFieldController,
-              decoration: InputDecoration(hintText: "اسم الصنف"),
+            content: SingleChildScrollView(
+              child: Column(
+                children: [
+                TextField(
+                    textAlign: TextAlign.center,
+                    controller: _ClassDescFieldController,
+                    decoration: InputDecoration(hintText: "اسم الصنف"),
+                  ),
+                  Container(
+                    height: 80,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        height: 80,
+                        width: MediaQuery.of(context).size.width / 1,
+                        child: FutureBuilder(
+                          future: GetImages(context),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<List<ImageModel>> snapshot) {
+                            if (snapshot.hasData) {
+                              List<ImageModel>? Visits = snapshot.data;
+              
+                              List<ImageModel>? search = Visits!
+                                  .where((element) => element.type
+                                  .toString()
+                                  .contains(dateinputC.text.toString()))
+                                  .toList();
+              
+                              return ListView(
+                                scrollDirection: Axis.horizontal,
+                                children: search
+                                    .map((ImageModel v) => Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child:  GestureDetector(
+                                    onTap: () {
+              
+                                      setState(() {
+                                        PATH=v.path.toString();
+                                      });
+              
+                                    },
+                                    child: PATH==v.path.toString()?Container(
+                                        width: 80,
+                                        height: 80,
+                                        color: Colors.black12,
+                                        child: Image.network(
+                                          v.path.toString(),
+                                          opacity: const AlwaysStoppedAnimation(.5),
+                                        )
+              
+                                    )
+                                        :Container(
+                                        width: 80,
+                                        height: 80,
+                                        child: Image.network(
+                                            v.path.toString())),
+                                  ),
+                                ))
+                                    .toList(),
+                              );
+                            } else {
+                              return Center(child: CircularProgressIndicator());
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
             actions: <Widget>[
               ElevatedButton(
@@ -423,7 +495,7 @@ class _NotificationsState extends State<classess> {
               ),
             ],
           );
-        });
+        });});
   }
 
   SaveClass(BuildContext context, String desc) async {
@@ -442,11 +514,12 @@ class _NotificationsState extends State<classess> {
 
     var map = new Map<String, dynamic>();
     map['classname'] = desc;
+    map['path'] = PATH;
     map['coffeid'] = Loginprovider.coffeeId.toString();
 
     print(map.toString() + " inputt");
     try {
-      Uri apiUrl = Uri.parse('https://poscoffeesystem.000webhostapp.com/addClassess.php');
+      Uri apiUrl = Uri.parse('https://coffepoint.net/Api/addClassess.php');
 
       http.Response response = await http
           .post(
@@ -512,7 +585,7 @@ class _NotificationsState extends State<classess> {
 
     print(map.toString() + " inputt");
     try {
-      Uri apiUrl = Uri.parse('https://poscoffeesystem.000webhostapp.com/deleteClassess.php');
+      Uri apiUrl = Uri.parse('https://coffepoint.net/Api/deleteClassess.php');
 
       http.Response response = await http
           .post(
@@ -557,6 +630,36 @@ print("response.toString()"+response.body.toString());
         ),
       );
     }
+  }
+  Future<List<ImageModel>> GetImages(BuildContext c) async {
+    Uri postsURL = Uri.parse('https://coffepoint.net/Api/getimage.php');
+    try {
+      var map = new Map<String, dynamic>();
+      map['type'] = '0';
+
+      http.Response res = await http.post(
+        postsURL,
+        body: map,
+      );
+
+      if (res.statusCode == 200) {
+        print("Profile" + res.body.toString());
+
+        List<dynamic> body = jsonDecode(res.body);
+
+        List<ImageModel> Doctors = body
+            .map(
+              (dynamic item) => ImageModel.fromJson(item),
+        )
+            .toList();
+
+        return Doctors;
+      } else {
+        throw "Unable to retrieve Profile.";
+      }
+    } catch (e) {}
+
+    throw "Unable to retrieve Profile.";
   }
 
 

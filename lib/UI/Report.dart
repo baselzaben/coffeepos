@@ -127,7 +127,7 @@ class _NotificationsState extends State<Report> {
                       child: Column(
                         children: [
 
-                          SizedBox(
+                        /*  SizedBox(
                             child: TextField(
                               controller: dateinputC, //editing controller of this TextField
                               decoration: InputDecoration(
@@ -189,8 +189,8 @@ class _NotificationsState extends State<Report> {
                                 }
                               },
                             ),
-                          )
-                          ,
+                          )*/
+
 
                          Row(
                             children: [
@@ -847,7 +847,7 @@ Container(
 
 
   Future<List<userRmodel>> GetUserR(BuildContext c) async {
-    Uri postsURL = Uri.parse('https://poscoffeesystem.000webhostapp.com/itemssalesreport.php');
+    Uri postsURL = Uri.parse('https://coffepoint.net/Api/itemssalesreport.php');
     try {
       var Loginprovider = Provider.of<LoginProvider>(context, listen: false);
       DateTime now = DateTime.now();
@@ -892,7 +892,7 @@ Container(
 
 
   Future<List<userRmodel>> GetitemsR(BuildContext c) async {
-    Uri postsURL = Uri.parse('https://poscoffeesystem.000webhostapp.com/itemssalesreport.php');
+    Uri postsURL = Uri.parse('https://coffepoint.net/Api/itemssalesreport.php');
     try {
       var Loginprovider = Provider.of<LoginProvider>(context, listen: false);
       DateTime now = DateTime.now();
@@ -938,7 +938,7 @@ Container(
 
 
   Future<List<HourReportModel>> GetitemsSaleHour(BuildContext c) async {
-    Uri postsURL = Uri.parse('https://poscoffeesystem.000webhostapp.com/itemssalesreport.php');
+    Uri postsURL = Uri.parse('https://coffepoint.net/Api/itemssalesreport.php');
     try {
       var Loginprovider = Provider.of<LoginProvider>(context, listen: false);
       DateTime now = DateTime.now();
@@ -983,7 +983,7 @@ Container(
 
 
   Future<List<HourReportModel>> GetitemsSaleMonth (BuildContext c) async {
-    Uri postsURL = Uri.parse('https://poscoffeesystem.000webhostapp.com/itemssalesreport.php');
+    Uri postsURL = Uri.parse('https://coffepoint.net/Api/itemssalesreport.php');
     try {
 
       var Loginprovider = Provider.of<LoginProvider>(context, listen: false);

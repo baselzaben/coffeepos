@@ -15,6 +15,7 @@ import '../provider/languageProvider.dart';
 import '../widget/Widgets.dart';
 import 'Bill.dart';
 import 'ChangePass.dart';
+import 'ContactUs.dart';
 import 'Home.dart';
 import 'package:arabic_font/arabic_font.dart';
 import 'package:http/http.dart' as http;
@@ -147,62 +148,6 @@ var Terms='';
                                 SizedBox(
                                   height: 20,
                                 ),
-                                GestureDetector(
-                                  onTap: () async {
-
-                                    setState(() {
-                                      if (LanguageProvider.getLanguage() ==
-                                          'AR') {
-                                        LanguageProvider.setLanguage('EN');
-                                      } else {
-                                        LanguageProvider.setLanguage('AR');
-                                      }
-                                    });
-                                    SharedPreferences pref =
-                                        await SharedPreferences.getInstance();
-                                    pref.setString(
-                                        'language', LanguageProvider.langg);
-                                  },
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.language,
-                                        color:
-                                            HexColor(ThemP.getcolor()),
-                                        size: 35 * unitHeightValue,
-                                      ),
-                                      SizedBox(
-                                        width: 6,
-                                      ),
-                                      Text(
-                                        LanguageProvider.Llanguage('language'),
-                                        style: ArabicTextStyle(
-            arabicFont: ArabicFont.tajawal,
-                                            fontSize: 17.5 * unitHeightValue,
-                                            color:
-                                                HexColor(Globalvireables.black),
-                                            fontWeight: FontWeight.w400),
-                                      ),
-                                      Spacer(),
-                                      Text(
-                                        LanguageProvider.getLanguage(),
-                                        style: ArabicTextStyle(
-            arabicFont: ArabicFont.tajawal,
-                                          fontSize: 15.5 * unitHeightValue,
-                                          color: HexColor(Globalvireables.grey),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 6,
-                                ),
-
-                                SizedBox(
-                                  height: 6,
-                                ),
-                                Divider(thickness: 1.0, color: Colors.black),
 
                                 GestureDetector(
                                     onTap: () async {
@@ -396,65 +341,12 @@ var Terms='';
                                 GestureDetector(
                                 onTap: ()  {
 
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return Expanded(
-                                          child: AlertDialog(
-                                            title: Center(
-                                              child: Text(
-                                                  textAlign: TextAlign.center,
 
-                                                  LanguageProvider.Llanguage("Feedback"),
-                                                  style: ArabicTextStyle(
-                                                      arabicFont: ArabicFont.tajawal,
-                                                      fontSize: 22 *
-                                                          unitHeightValue)),
-                                            ),
-                                            content: Text(
-                                              textAlign: TextAlign.center,
-
-                                              LanguageProvider.Llanguage("descapp"),
-                                              style: ArabicTextStyle(
-                                                  arabicFont: ArabicFont.tajawal,
-                                                  fontSize:
-                                                  16 * unitHeightValue),
-                                            ),
-                                            actions: [
-
-Row(children: [
-Spacer(),
-  SizedBox(
-    width: 100,
-    height: 100,
-    child: Image(
-        image: new AssetImage(
-            "assets/newlogo.png")),
-  ),
-  Spacer(),
-
-  SizedBox(
-    width: 120,
-    height: 120,
-    child: Image(
-        image: new AssetImage(
-            "assets/logo.png")),
-  ),
-  Spacer(),
-
-
-],)
-
-                                            ],
-                                          ),
-                                        );
-                                      },
-                                    );
-
-
-
-
-
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ContactUs()),
+                                  );
 
 
 
@@ -471,7 +363,7 @@ Spacer(),
                                         width: 6,
                                       ),
                                       Text(
-                                        LanguageProvider.Llanguage("Feedback"),
+                                        'تواصل معنا',
                                         style: ArabicTextStyle(
             arabicFont: ArabicFont.tajawal,
                                             fontSize: 17.5 * unitHeightValue,

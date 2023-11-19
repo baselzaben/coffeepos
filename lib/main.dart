@@ -12,14 +12,18 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:arabic_font/arabic_font.dart';
 import 'package:http/http.dart' as http;
+import 'dart:io';
 
 import 'GlobalVar.dart';
 import 'HexaColor.dart';
+import 'MyHttpOverrides.dart';
 import 'UI/LoginScreen.dart';
 
 String language = '';
 
 Future<void> main() async {
+  HttpOverrides.global = MyHttpOverrides();
+
   WidgetsFlutterBinding.ensureInitialized();
   //final prefs = await SharedPreferences.getInstance();
   runApp(MultiProvider(

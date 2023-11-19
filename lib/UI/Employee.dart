@@ -478,7 +478,7 @@ SizedBox(height: 40,),
 
     print(map.toString() + " inputt");
     try {
-      Uri apiUrl = Uri.parse('https://poscoffeesystem.000webhostapp.com/addemployee.php');
+      Uri apiUrl = Uri.parse('https://coffepoint.net/Api/addemployee.php');
 
       http.Response response = await http
           .post(apiUrl,body: map,).whenComplete(() => Navigator.pop(context));
@@ -547,7 +547,7 @@ SizedBox(height: 40,),
 
     print(map.toString() + " inputt");
     try {
-      Uri apiUrl = Uri.parse('https://poscoffeesystem.000webhostapp.com/updateemployee.php');
+      Uri apiUrl = Uri.parse('https://coffepoint.net/Api/updateemployee.php');
 
       http.Response response = await http
           .post(apiUrl,body: map,).whenComplete(() => Navigator.pop(context));
@@ -593,7 +593,7 @@ SizedBox(height: 40,),
 
   Future<List<EmplyeeModel>> getAllEmployee(
       BuildContext c, String coffeeid) async {
-    Uri postsURL = Uri.parse('https://poscoffeesystem.000webhostapp.com/getemployee.php');
+    Uri postsURL = Uri.parse('https://coffepoint.net/Api/getemployee.php');
     try {
       var Loginprovider = Provider.of<LoginProvider>(context, listen: false);
 

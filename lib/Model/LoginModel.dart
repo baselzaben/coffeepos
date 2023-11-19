@@ -12,6 +12,7 @@ class LoginModel {
   String? locationn;
   String? coffename;
   String? message;
+  String? expierdate;
 
   //////////////////////////
 
@@ -32,6 +33,8 @@ class LoginModel {
         this.username,
         this.usertype,
         this.message,
+        this.expierdate,
+
         /////
         this.inititem,
         this.debitpersion,
@@ -45,6 +48,8 @@ class LoginModel {
   LoginModel.fromJson(Map<String, dynamic> json) {
     coffeeId = json['coffeeId'];
     ///////
+
+    expierdate = json['expierdate'];
     inititem = json['inititem'];
     debitpersion = json['debitpersion'];
     debtbook = json['debtbook'];
@@ -72,6 +77,8 @@ locationn = json['locationn'];
     data['passwordd'] = this.passwordd.toString();
     data['phone'] = this.phone.toString();
     /////
+
+    data['expierdate'] = this.expierdate.toString();
     data['inititem'] = this.inititem.toString();
     data['debitpersion'] = this.debitpersion.toString();
     data['debtbook'] = this.debtbook.toString();

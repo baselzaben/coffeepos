@@ -33,7 +33,18 @@ class LoginProvider extends ChangeNotifier {
   String? version;
   String? link;
   String? show;
+  String? expierdate;
+
 ////
+  getexpierdate() {
+    return expierdate;
+  }
+
+  setexpierdate(String expierdate) {
+    this.expierdate = expierdate;
+    notifyListeners();
+  }
+
 
   getshow() {
     return show;

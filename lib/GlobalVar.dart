@@ -61,7 +61,7 @@ class Globalvireables {
   }
 
   static String them1="#229954";
-  static String them2="#2E86C1";
+  static String them2="#00704A";
   static String them3="#8E44AD";
   static String them4="#2E4053";
   static String them5="#D35400";

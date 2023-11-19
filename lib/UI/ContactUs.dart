@@ -7,10 +7,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../GlobalVar.dart';
-import '../HexaColor.dart';
 import 'package:flutter/services.dart';
 
+import 'package:http/http.dart' as http;
+
+import '../GlobalVar.dart';
+import '../HexaColor.dart';
 import '../provider/LoginProvider.dart';
 import '../provider/Them.dart';
 import '../provider/languageProvider.dart';
@@ -18,14 +20,13 @@ import '../widget/Widgets.dart';
 import 'Bill.dart';
 import 'Home.dart';
 import 'Settings.dart';
-import 'package:http/http.dart' as http;
 
-class ChangePass extends StatefulWidget {
+class ContactUs extends StatefulWidget {
   @override
-  State<ChangePass> createState() => _ChangePassState();
+  State<ContactUs> createState() => _ContactUsState();
 }
 
-class _ChangePassState extends State<ChangePass> {
+class _ContactUsState extends State<ContactUs> {
   @override
   void initState() {
     super.initState();
@@ -36,9 +37,8 @@ class _ChangePassState extends State<ChangePass> {
     super.dispose();
   }
 
-  final newpass2 = TextEditingController();
-  final newpass1 = TextEditingController();
-  final oldpass = TextEditingController();
+  final phonenum = TextEditingController();
+  final notecontroller = TextEditingController();
 
 
 
@@ -94,7 +94,7 @@ class _ChangePassState extends State<ChangePass> {
             backgroundColor: Colors.white,
             bottomOpacity: 800.0,
             elevation: 4.0,
-            title: Widgets.Appbar(context,LanguageProvider.Llanguage('Gangepasswor') , unitHeightValue,LanguageProvider.langg,LanguageProvider.getDirection()),
+            title: Widgets.Appbar(context,'تواصل معنا', unitHeightValue,LanguageProvider.langg,LanguageProvider.getDirection()),
           ),
           backgroundColor: HexColor(ThemP.getcolor()),
           // backgroundColor: Colors.transparent,
@@ -134,18 +134,14 @@ class _ChangePassState extends State<ChangePass> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-    Image.asset(
-    "assets/repass.png",
-    height: 200,
-    width: 200,
-    ),
+
                         SizedBox(height: 20,),
 
                         Container(
                             margin: EdgeInsets.only(
                                 left: 25, right: 25, top: 10),
                             child: TextField(
-                              controller: oldpass,
+                              controller: phonenum,
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(),
                                 focusedBorder: OutlineInputBorder(
@@ -170,15 +166,15 @@ class _ChangePassState extends State<ChangePass> {
                                 fillColor:
                                 HexColor(Globalvireables.white),
                                 filled: true,
-                                hintText: LanguageProvider.Llanguage(
-                                    "oldpass"),
+                                hintText:
+                                    "رقم هاتفك",
                               ),
                             )),
                         Container(
                             margin: EdgeInsets.only(
                                 left: 25, right: 25, top: 10),
                             child: TextField(
-                              controller: newpass1,
+                              controller: notecontroller,
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(),
                                 focusedBorder: OutlineInputBorder(
@@ -203,41 +199,8 @@ class _ChangePassState extends State<ChangePass> {
                                 fillColor:
                                 HexColor(Globalvireables.white),
                                 filled: true,
-                                hintText: LanguageProvider.Llanguage(
-                                    "newpass"),
-                              ),
-                            )),
-                        Container(
-                            margin: EdgeInsets.only(
-                                left: 25, right: 25, top: 10),
-                            child: TextField(
-                              controller: newpass2,
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: HexColor(
-                                            Globalvireables.black),
-                                        width: 0.0),
-                                    borderRadius:
-                                    BorderRadius.circular(10.0)),
-                                enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: HexColor(
-                                            ThemP.getcolor()),
-                                        width: 1.0),
-                                    borderRadius:
-                                    BorderRadius.circular(10.0)),
-                                contentPadding: EdgeInsets.only(
-                                    top: 18,
-                                    bottom: 18,
-                                    right: 20,
-                                    left: 20),
-                                fillColor:
-                                HexColor(Globalvireables.white),
-                                filled: true,
-                                hintText: LanguageProvider.Llanguage(
-                                    "newpassconfirm"),
+                                hintText:
+                                    "الملاحظه",
                               ),
                             )),
 
@@ -256,7 +219,7 @@ class _ChangePassState extends State<ChangePass> {
                                 HexColor(ThemP.getcolor()),
                               ),
                               child: Text(
-                                LanguageProvider.Llanguage('Gangepasswor'),
+                                ('ارسال'),
                                 style: ArabicTextStyle(
                                     arabicFont: ArabicFont.tajawal,
                                     color:
@@ -264,21 +227,7 @@ class _ChangePassState extends State<ChangePass> {
                                     fontSize: 13 * unitHeightValue),
                               ),
                               onPressed: () async {
-                                if(newpass1.text==newpass2.text && oldpass.text==Loginproviderr.getpasswordd().toString())
-{
-  updateemployee(context,newpass1.text,Loginproviderr.getid());
-                              }  else
-
-                                  await showDialog(
-                                    context: context,
-                                    builder: (context) =>
-                                    new AlertDialog(
-                                      title: new Text(LanguageProvider.Llanguage('Gangepasswor')),
-                                      content: Text(LanguageProvider.Llanguage('confrpassmost')),
-                                      actions: <Widget>[],
-                                    ),
-                                  );
-
+                                SendNote(context);
                               },
                             ),
                           ),
@@ -313,7 +262,7 @@ class _ChangePassState extends State<ChangePass> {
 
   ];
 
-  updateemployee(BuildContext context,String pass,String empid ) async {
+  SendNote(BuildContext context ) async {
     var l = Provider.of<Language>(context, listen: false);
     var Loginprovider = Provider.of<LoginProvider>(context, listen: false);
     DateTime now = DateTime.now();
@@ -323,25 +272,23 @@ class _ChangePassState extends State<ChangePass> {
     showDialog(
         context: context,
         builder: (_) => AlertDialog(
-          title: Text(l.Llanguage('addclasses')),
+          title: Text('تواصل معنا'),
           content: Text(l.getLanguage() == "AR"
-              ? 'تحديث كلمه المرور ...'
+              ? 'ارسال الملاحظه ...'
               : 'update password..'),
         ));
 
 
-
-
-
     var map = new Map<String, dynamic>();
-    map['empid'] = empid;
-    map['pass'] = pass;
+    map['phone'] = phonenum.text.toString();
+    map['note'] = notecontroller.text.toString();
     map['coffeid'] = Loginprovider.coffeeId.toString();
+    map['name'] = Loginprovider.name.toString();
 
 
     print(map.toString() + " inputt");
     try {
-      Uri apiUrl = Uri.parse('https://coffepoint.net/Api/updatepass.php');
+      Uri apiUrl = Uri.parse('https://coffepoint.net/Api/addnote.php');
 
       http.Response response = await http
           .post(apiUrl,body: map,).whenComplete(() => Navigator.pop(context));
@@ -366,7 +313,7 @@ class _ChangePassState extends State<ChangePass> {
         showDialog(
             context: context,
             builder: (_) => AlertDialog(
-              title: Text('تحديث كلمه المرور'),
+              title: Text('ارسال الملاحظه'),
               content: Text(l.Llanguage('anerror')),
             ));
       }
@@ -375,7 +322,7 @@ class _ChangePassState extends State<ChangePass> {
       await showDialog(
         context: context,
         builder: (context) => new AlertDialog(
-          title: new Text('تحديث كلمه المرور'),
+          title: new Text('ارسال الملاحظه'),
           content: Text(l.Llanguage('anerror') + e.toString()),
           actions: <Widget>[],
         ),
@@ -383,163 +330,4 @@ class _ChangePassState extends State<ChangePass> {
     }
   }
 
-
-
 }
-
-/*
-
-  */
-
-
-/*
-Spacer()
-,
-Container(
-margin: EdgeInsets.only(
-left: 25, right: 25, top: 10),
-child: TextField(
-controller: oldpass,
-decoration: InputDecoration(
-border: OutlineInputBorder(),
-focusedBorder: OutlineInputBorder(
-borderSide: BorderSide(
-color: HexColor(
-Globalvireables.black),
-width: 0.0),
-borderRadius:
-BorderRadius.circular(10.0)),
-enabledBorder: OutlineInputBorder(
-borderSide: BorderSide(
-color: HexColor(
-ThemP.getcolor()),
-width: 1.0),
-borderRadius:
-BorderRadius.circular(10.0)),
-contentPadding: EdgeInsets.only(
-top: 18,
-bottom: 18,
-right: 20,
-left: 20),
-fillColor:
-HexColor(Globalvireables.white),
-filled: true,
-hintText: LanguageProvider.Llanguage(
-"oldpass"),
-),
-)),
-Container(
-margin: EdgeInsets.only(
-left: 25, right: 25, top: 10),
-child: TextField(
-controller: newpass1,
-decoration: InputDecoration(
-border: OutlineInputBorder(),
-focusedBorder: OutlineInputBorder(
-borderSide: BorderSide(
-color: HexColor(
-Globalvireables.black),
-width: 0.0),
-borderRadius:
-BorderRadius.circular(10.0)),
-enabledBorder: OutlineInputBorder(
-borderSide: BorderSide(
-color: HexColor(
-ThemP.getcolor()),
-width: 1.0),
-borderRadius:
-BorderRadius.circular(10.0)),
-contentPadding: EdgeInsets.only(
-top: 18,
-bottom: 18,
-right: 20,
-left: 20),
-fillColor:
-HexColor(Globalvireables.white),
-filled: true,
-hintText: LanguageProvider.Llanguage(
-"newpass"),
-),
-)),
-Container(
-margin: EdgeInsets.only(
-left: 25, right: 25, top: 10),
-child: TextField(
-controller: newpass2,
-decoration: InputDecoration(
-border: OutlineInputBorder(),
-focusedBorder: OutlineInputBorder(
-borderSide: BorderSide(
-color: HexColor(
-Globalvireables.black),
-width: 0.0),
-borderRadius:
-BorderRadius.circular(10.0)),
-enabledBorder: OutlineInputBorder(
-borderSide: BorderSide(
-color: HexColor(
-ThemP.getcolor()),
-width: 1.0),
-borderRadius:
-BorderRadius.circular(10.0)),
-contentPadding: EdgeInsets.only(
-top: 18,
-bottom: 18,
-right: 20,
-left: 20),
-fillColor:
-HexColor(Globalvireables.white),
-filled: true,
-hintText: LanguageProvider.Llanguage(
-"newpassconfirm"),
-),
-)),
-
-Spacer(),
-
-Align(
-alignment: Alignment.bottomCenter,
-child: Container(
-height: 50,
-width:
-MediaQuery.of(context).size.width / 1.2,
-margin: EdgeInsets.only(top: 40, bottom: 5),
-color: HexColor(Globalvireables.white),
-child: ElevatedButton(
-style: ElevatedButton.styleFrom(
-primary:
-HexColor(ThemP.getcolor()),
-),
-child: Text(
-LanguageProvider.Llanguage('ChangePass'),
-style: ArabicTextStyle(
-arabicFont: ArabicFont.tajawal,
-color:
-HexColor(Globalvireables.white),
-fontSize: 13 * unitHeightValue),
-),
-onPressed: () async {
-if(newpass1.text==newpass2.text)
-ChangePass(context,LoginProvider().userId,newpass1.text);
-else
-await showDialog(
-context: context,
-builder: (context) =>
-new AlertDialog(
-title: new Text(LanguageProvider.Llanguage('Gangepasswor')),
-content: Text(LanguageProvider.Llanguage('confrpassmost')),
-actions: <Widget>[],
-),
-);
-*//* Navigator.of(context).pushAndRemoveUntil(
-                                          MaterialPageRoute(
-                                            builder: (context) => Index(),
-                                          ),
-                                          (Route<dynamic> route) => false);*//*
-},
-),
-),
-),
-
-
-Spacer()*/

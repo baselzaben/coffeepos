@@ -220,7 +220,7 @@ var total=0.0;
                           Container(
                             height: MediaQuery.of(context).size.height/1.1,
 
-                            child: ListView(
+                            child: cart!.length>0? ListView(
                               children: cart
                               !.map((itemsModel v) => SizedBox(
                                 width: MediaQuery.of(context).size.width/3.6,
@@ -485,7 +485,22 @@ var total=0.0;
     ),
                               ))
                                   .toList(),
-                            ),
+                            )  :Column(
+                              children: [
+                                Container(
+                                    child: SvgPicture.asset(
+                                    "assets/nodata.svg",
+                                    ),
+                                    ),
+
+                                Text(
+                                  "أضف العناصر إلى فاتورتك الآن"   ,
+                                  style: ArabicTextStyle(arabicFont: ArabicFont.tajawal,
+                                      color: Colors.black, fontSize: 18 * unitHeightValue, fontWeight: FontWeight.w700),
+                                ),
+
+                              ],
+                            )
                           ),
 
                           Row(
@@ -822,7 +837,7 @@ SizedBox(height: 25,),
                                                           .toString()))
                                                       .toList();
 
-                                                  return ListView(
+                                                  return search.length>0? ListView(
                                                     children: search!
                                                         .map(
                                                             (classessModel
@@ -875,6 +890,16 @@ SizedBox(height: 25,),
                                                               ],
                                                             ))
                                                         .toList(),
+                                                  )
+                                                      :Container(
+                                                        width: 100 * unitHeightValue,
+                                                        height: 100 * unitHeightValue,
+                                                        child: SvgPicture.asset(
+                                                          "assets/nodata.svg",
+                                                          color:  Colors.green,
+                                                          height: 100 * unitHeightValue,
+                                                          width: 100 * unitHeightValue,
+                                                        ),
                                                   );
                                                 } else {
                                                   return Center(
@@ -998,7 +1023,7 @@ SizedBox(height: 25,),
 
     print(map.toString() + " inputt");
     try {
-      Uri apiUrl = Uri.parse('https://poscoffeesystem.000webhostapp.com/additems.php');
+      Uri apiUrl = Uri.parse('https://coffepoint.net/Api/additems.php');
 
       http.Response response = await http
           .post(
@@ -1046,7 +1071,7 @@ SizedBox(height: 25,),
 
   Future<List<classessModel>> getallclassess(
       BuildContext c, String coffeeid) async {
-    Uri postsURL = Uri.parse('https://poscoffeesystem.000webhostapp.com/getClassess.php');
+    Uri postsURL = Uri.parse('https://coffepoint.net/Api/getClassess.php');
     try {
       var map = new Map<String, dynamic>();
       map['coffeid'] = coffeeid;
@@ -1101,7 +1126,7 @@ SizedBox(height: 25,),
     print(map.toString() + " inputt");
     try {
 
-      Uri apiUrl = Uri.parse('https://poscoffeesystem.000webhostapp.com/deleteitem.php');
+      Uri apiUrl = Uri.parse('https://coffepoint.net/Api/deleteitem.php');
       http.Response response = await http
           .post(
         apiUrl,
@@ -1151,7 +1176,7 @@ SizedBox(height: 25,),
       BuildContext c, String coffeeid) async {
     var billprovider = Provider.of<BillProvider>(context, listen: false);
 
-    Uri postsURL = Uri.parse('https://poscoffeesystem.000webhostapp.com/getitems.php');
+    Uri postsURL = Uri.parse('https://coffepoint.net/Api/getitems.php');
     try {
       var map = new Map<String, dynamic>();
       map['coffeid'] = coffeeid;
@@ -1200,7 +1225,7 @@ SizedBox(height: 25,),
 
     print(map.toString() + " inputt");
     try {
-      Uri apiUrl = Uri.parse('https://poscoffeesystem.000webhostapp.com/addinvoicedtl.php');
+      Uri apiUrl = Uri.parse('https://coffepoint.net/Api/addinvoicedtl.php');
 
       http.Response response = await http
           .post(
@@ -1276,7 +1301,7 @@ print("OUT   "+response.body.toString());
 
     print(map.toString() + " inputt");
     try {
-      Uri apiUrl = Uri.parse('https://poscoffeesystem.000webhostapp.com/addinvoicehdr.php');
+      Uri apiUrl = Uri.parse('https://coffepoint.net/Api/addinvoicehdr.php');
 
       http.Response response = await http
           .post(
@@ -1340,7 +1365,7 @@ print("OUT   "+response.body.toString());
 
 
     try {
-      Uri apiUrl = Uri.parse('https://poscoffeesystem.000webhostapp.com/getmaxinvid.php');
+      Uri apiUrl = Uri.parse('https://coffepoint.net/Api/getmaxinvid.php');
 
       http.Response response = await http
           .post(
@@ -1663,8 +1688,24 @@ print("OUT   "+response.body.toString());
                     .toList(),
               );
             } else {
-              return Center(
-                  child: CircularProgressIndicator());
+              return Column(
+                children: [
+                  Container(
+                    child: SvgPicture.asset(
+                      "assets/nodata.svg",
+                    ),
+                  ),
+
+                  Text(
+                  textAlign: TextAlign.center,
+
+                    "عرف المواد الخاصة بك الآن من خلال شاشة تعريف المواد"   ,
+                    style: ArabicTextStyle(arabicFont: ArabicFont.tajawal,
+                        color: Colors.black, fontSize: 18 * unitHeightValue, fontWeight: FontWeight.w700),
+                  ),
+
+                ],
+              );;
             }
           },
         ),

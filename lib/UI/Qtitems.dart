@@ -5,6 +5,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:coffeepos/provider/LoginProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 import '../GlobalVar.dart';
@@ -56,7 +57,7 @@ class _NotificationsState extends State<Qtitems> {
         fit: BoxFit.cover,
       ),
       Scaffold(
-          floatingActionButton: Align(
+      /*    floatingActionButton: Align(
             alignment: new FractionalOffset(0.55, 1.0),
             child: SizedBox(
               width: MediaQuery.of(context).size.width / 3,
@@ -71,7 +72,7 @@ class _NotificationsState extends State<Qtitems> {
                 },
               ),
             ),
-          ),
+          ),*/
           appBar: AppBar(
             backgroundColor: Colors.white,
             bottomOpacity: 800.0,
@@ -484,8 +485,24 @@ class _NotificationsState extends State<Qtitems> {
                                     ),*/
                                   );
                                 } else {
-                                  return Center(
-                                      child: CircularProgressIndicator());
+                                  return Column(
+                                    children: [
+                                      Container(
+                                        child: SvgPicture.asset(
+                                          "assets/nodata.svg",
+                                        ),
+                                      ),
+
+                                      Text(
+                                        textAlign: TextAlign.center,
+
+                                        "يجب تعريف المواد من شاشة تعريف المواد ثم يمكنك إضافة الكميات"   ,
+                                        style: ArabicTextStyle(arabicFont: ArabicFont.tajawal,
+                                            color: Colors.black, fontSize: 16 * unitHeightValue, fontWeight: FontWeight.w700),
+                                      ),
+
+                                    ],
+                                  );;
                                 }
                               },
                             ),
@@ -521,7 +538,7 @@ class _NotificationsState extends State<Qtitems> {
 
   Future<List<itemsModel>> getAllQtitems(
       BuildContext c, String coffeeid) async {
-    Uri postsURL = Uri.parse('https://poscoffeesystem.000webhostapp.com/getitems.php');
+    Uri postsURL = Uri.parse('https://coffepoint.net/Api/getitems.php');
     try {
       var map = new Map<String, dynamic>();
       map['coffeid'] = coffeeid;
@@ -957,7 +974,7 @@ class _NotificationsState extends State<Qtitems> {
 
     print(map.toString() + " inputt");
     try {
-      Uri apiUrl = Uri.parse('https://poscoffeesystem.000webhostapp.com/addQtitems.php');
+      Uri apiUrl = Uri.parse('https://coffepoint.net/Api/addQtitems.php');
 
       http.Response response = await http
           .post(
@@ -1005,7 +1022,7 @@ class _NotificationsState extends State<Qtitems> {
 
   Future<List<classessModel>> getallclassess(
       BuildContext c, String coffeeid) async {
-    Uri postsURL = Uri.parse('https://poscoffeesystem.000webhostapp.com/getClassess.php');
+    Uri postsURL = Uri.parse('https://coffepoint.net/Api/getClassess.php');
     try {
       var map = new Map<String, dynamic>();
       map['coffeid'] = coffeeid;
@@ -1062,7 +1079,7 @@ class _NotificationsState extends State<Qtitems> {
     print(map.toString() + " inputt");
     try {
 
-      Uri apiUrl = Uri.parse('https://poscoffeesystem.000webhostapp.com/addqtitem.php');
+      Uri apiUrl = Uri.parse('https://coffepoint.net/Api/addqtitem.php');
       http.Response response = await http
           .post(apiUrl, body: map,)
           .whenComplete(() => Navigator.pop(context));

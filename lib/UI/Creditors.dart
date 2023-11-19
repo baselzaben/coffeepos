@@ -4,6 +4,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart';
 import 'package:local_auth/local_auth.dart';
@@ -393,9 +394,26 @@ SizedBox(height: 40,),
                             .toList(),
                       );
                     } else {
-                      return Center(
-                          child:
-                          CircularProgressIndicator());
+                      return Column(
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width/1.5,
+                            height: MediaQuery.of(context).size.width/1.5,
+                            child: SvgPicture.asset(
+                              "assets/nodata.svg",
+                            ),
+                          ),
+
+                          Text(
+                            textAlign: TextAlign.center,
+
+                            "عرف الدائنين الان"   ,
+                            style: ArabicTextStyle(arabicFont: ArabicFont.tajawal,
+                                color: Colors.black, fontSize: 16 * unitHeightValue, fontWeight: FontWeight.w700),
+                          ),
+
+                        ],
+                      );
                     }
                   },
                 ),
@@ -535,7 +553,7 @@ SizedBox(height: 40,),
 
     print(map.toString() + " inputt");
     try {
-      Uri apiUrl = Uri.parse('https://poscoffeesystem.000webhostapp.com/addcreditor.php');
+      Uri apiUrl = Uri.parse('https://coffepoint.net/Api/addcreditor.php');
 
       http.Response response = await http
           .post(apiUrl,body: map,).whenComplete(() => Navigator.pop(context));
@@ -612,7 +630,7 @@ SizedBox(height: 40,),
 
     print(map.toString() + " inputt");
     try {
-      Uri apiUrl = Uri.parse('https://poscoffeesystem.000webhostapp.com/addcreditor.php');
+      Uri apiUrl = Uri.parse('https://coffepoint.net/Api/addcreditor.php');
 
       http.Response response = await http
           .post(apiUrl,body: map,).whenComplete(() => Navigator.pop(context));
@@ -657,7 +675,7 @@ SizedBox(height: 40,),
 
   Future<List<CreditorsModel>> getcreditors(
       BuildContext c) async {
-    Uri postsURL = Uri.parse('https://poscoffeesystem.000webhostapp.com/getcreditors.php');
+    Uri postsURL = Uri.parse('https://coffepoint.net/Api/getcreditors.php');
     try {
       var Loginprovider = Provider.of<LoginProvider>(context, listen: false);
 
@@ -816,7 +834,7 @@ SizedBox(height: 40,),
 
     print(map.toString() + " inputt");
     try {
-      Uri apiUrl = Uri.parse('https://poscoffeesystem.000webhostapp.com/addcreditor.php');
+      Uri apiUrl = Uri.parse('https://coffepoint.net/Api/addcreditor.php');
 
       http.Response response = await http
           .post(apiUrl,body: map,).whenComplete(() => Navigator.pop(context));

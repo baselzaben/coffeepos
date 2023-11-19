@@ -183,25 +183,6 @@ var state="";
   SizedBox(
 
       child:Column(children: [
-          Row(children: [
-            Text("التاريخ : ",
-                style: ArabicTextStyle(
-                    arabicFont: ArabicFont.tajawal,
-                    color: HexColor(Globalvireables.black),
-                    fontSize: 18 * unitHeightValue,
-                    fontWeight: FontWeight.w700)),
-
-            SizedBox(
-              height: 10,
-            ),
-            Text(DateTime.now().toString().substring(0,10),
-                style: ArabicTextStyle(
-                    arabicFont: ArabicFont.tajawal,
-                    color: HexColor(Globalvireables.black),
-                    fontSize: 18 * unitHeightValue,
-                    fontWeight: FontWeight.w700))
-
-          ]),
 
 
           Container(
@@ -323,7 +304,7 @@ var state="";
           SizedBox(
             height: 10,
           ),
-          Text(DateTime.now().toString().substring(0,10),
+          Text(Loginprovider.getexpierdate().toString(),
               style: ArabicTextStyle(
                   arabicFont: ArabicFont.tajawal,
                   color: HexColor(Globalvireables.black),
@@ -994,7 +975,7 @@ if(Loginprovider.getinititem()=='1'){
 
     print(map.toString() + " inputt");
     try {
-      Uri apiUrl = Uri.parse('https://poscoffeesystem.000webhostapp.com/itemssalesreport.php');
+      Uri apiUrl = Uri.parse('https://coffepoint.net/Api/itemssalesreport.php');
 
       http.Response response = await http.post(apiUrl, body: map);
 
@@ -1057,7 +1038,7 @@ if(Loginprovider.getinititem()=='1'){
 
     print(map.toString() + " inputt");
     try {
-      Uri apiUrl = Uri.parse('https://poscoffeesystem.000webhostapp.com/itemssalesreport.php');
+      Uri apiUrl = Uri.parse('https://coffepoint.net/Api/itemssalesreport.php');
 
       http.Response response = await http
           .post(
@@ -1126,7 +1107,7 @@ else {
 
   Future<List<SumSaleModel>> GetSumDaySale(
       BuildContext c) async {
-    Uri postsURL = Uri.parse('https://poscoffeesystem.000webhostapp.com/itemssalesreport.php');
+    Uri postsURL = Uri.parse('https://coffepoint.net/Api/itemssalesreport.php');
     try {
       var Loginprovider = Provider.of<LoginProvider>(context, listen: false);
       DateTime now = DateTime.now();

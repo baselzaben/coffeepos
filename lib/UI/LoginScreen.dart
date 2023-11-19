@@ -92,7 +92,7 @@ var LanguageProvider = Provider.of<Language>(context, listen: false);
         fit: BoxFit.cover,
       ),
       Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         body: Directionality(
           textDirection: LanguageProvider.getDirection(),
           child: Container(
@@ -113,7 +113,7 @@ var LanguageProvider = Provider.of<Language>(context, listen: false);
                             children: [
                              Container(
 
-                                    width: MediaQuery.of(context).size.width / 1,
+                                    width: MediaQuery.of(context).size.width / 1.8,
                                     height:
                                     Globalvireables.getDeviceType()=='tablet'?MediaQuery.of(context).size.width/12
                                         :MediaQuery.of(context).size.width/2,
@@ -328,7 +328,7 @@ margin: EdgeInsets.only(top:Globalvireables.getDeviceType()=='tablet'? 44:0),
                                 ),
 
 
-
+SizedBox(height: 50,),
 
                               SizedBox(
 
@@ -430,7 +430,7 @@ margin: EdgeInsets.only(top:Globalvireables.getDeviceType()=='tablet'? 44:0),
                                     Text(
                                       textAlign:TextAlign.center,
 
-                                      "Powered By NOBUGS",
+                                      "Powered By PointCoffee",
                                       style: ArabicTextStyle(
                                           arabicFont: ArabicFont.tajawal,
                                           color: HexColor(Globalvireables.black)),
@@ -524,7 +524,7 @@ try {
 
   //  try {
 
-  Uri apiUrl = Uri.parse('https://poscoffeesystem.000webhostapp.com/login.php');
+  Uri apiUrl = Uri.parse('https://coffepoint.net/Api/login.php');
 
   http.Response response = await http
       .post(apiUrl, body: map,)
@@ -564,6 +564,7 @@ try {
       Loginprovider.setdebtbook(Appoiments[0].debtbook.toString());
       Loginprovider.setaddqt(Appoiments[0].addqt.toString());
       Loginprovider.setreport(Appoiments[0].report.toString());
+      Loginprovider.setexpierdate(Appoiments[0].expierdate.toString());
 
       ///
 
@@ -631,7 +632,7 @@ try {
 
   Future<List<AppModel>> GetAppInfo(
       BuildContext c) async {
-    Uri postsURL = Uri.parse('https://poscoffeesystem.000webhostapp.com/getapp.php');
+    Uri postsURL = Uri.parse('https://coffepoint.net/Api/getapp.php');
     try {
       var Loginprovider = Provider.of<LoginProvider>(context, listen: false);
       http.Response res = await http.post(
