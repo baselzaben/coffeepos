@@ -205,7 +205,6 @@ class _NotificationsState extends State<Qtitems> {
                                               GestureDetector(
                                                 onTap: () async {
 
-                                                  v.enableqt.toString()=='1'?
                                                   showDialog(
                                                     context: context,
                                                     builder: (BuildContext context) {
@@ -239,7 +238,14 @@ class _NotificationsState extends State<Qtitems> {
                                                             TextButton(
                                                               //  textColor: Colors.black,
                                                               onPressed: () {
-                                                                AddQT(context,v.id.toString(),int.parse(v.nowqt.toString())+int.parse(addedQTController.text.toString()));
+
+                                                                if(v.enableqt.toString()=='1')
+                                                                {
+                                                                  AddQT(context,v.id.toString(),int.parse(v.nowqt.toString())+int.parse(addedQTController.text.toString()),'add');
+                                                                }else{
+                                                                  AddQT(context,v.id.toString(),int.parse(v.nowqt.toString())+int.parse(addedQTController.text.toString()),'enable');
+
+                                                                }
                                                               },
                                                               child: Text(
                                                                 LanguageProvider.Llanguage(
@@ -272,11 +278,33 @@ class _NotificationsState extends State<Qtitems> {
                                                                         unitHeightValue),
                                                               ),
                                                             ),
+
+
+                                                            TextButton(
+                                                              // textColor: Colors.black,
+                                                              onPressed: () {
+
+                                                                AddQT(context,v.id.toString(),int.parse(v.nowqt.toString())+int.parse(addedQTController.text.toString()),'disable');
+
+
+
+
+                                                              },
+                                                              child: Text(
+                                                               'ايقاف المخزون',
+                                                                style: ArabicTextStyle(
+                                                                    arabicFont:
+                                                                    ArabicFont.tajawal,
+                                                                    color: Colors.black87,
+                                                                    fontSize: 15 *
+                                                                        unitHeightValue),
+                                                              ),
+                                                            ),
                                                           ],
                                                         ),
                                                       );
                                                     },
-                                                  ):null;
+                                                  );
 
 
                                                 },
@@ -495,14 +523,13 @@ class _NotificationsState extends State<Qtitems> {
 
                                       Text(
                                         textAlign: TextAlign.center,
-
                                         "يجب تعريف المواد من شاشة تعريف المواد ثم يمكنك إضافة الكميات"   ,
                                         style: ArabicTextStyle(arabicFont: ArabicFont.tajawal,
                                             color: Colors.black, fontSize: 16 * unitHeightValue, fontWeight: FontWeight.w700),
                                       ),
 
                                     ],
-                                  );;
+                                  );
                                 }
                               },
                             ),
@@ -1057,7 +1084,7 @@ class _NotificationsState extends State<Qtitems> {
     throw "Unable to retrieve Profile.";
   }
 
-  AddQT(BuildContext context, String itemid ,int qt) async {
+  AddQT(BuildContext context, String itemid ,int qt ,String type) async {
     var l = Provider.of<Language>(context, listen: false);
     var Loginprovider = Provider.of<LoginProvider>(context, listen: false);
     DateTime now = DateTime.now();
@@ -1065,7 +1092,7 @@ class _NotificationsState extends State<Qtitems> {
     showDialog(
         context: context,
         builder: (_) => AlertDialog(
-          title: Text(l.Llanguage('deleteclass')),
+          title: Text(l.Llanguage('addQtitems')),
           content: Text(l.getLanguage() == "AR"
               ? ' ...'
               : ' ..'),
@@ -1074,7 +1101,7 @@ class _NotificationsState extends State<Qtitems> {
     var map = new Map<String, dynamic>();
     map['itemid'] = itemid;
     map['qt'] = qt.toString();
-    map['type'] = 'add';
+    map['type'] = type;
 
     print(map.toString() + " inputt");
     try {
@@ -1094,9 +1121,9 @@ class _NotificationsState extends State<Qtitems> {
         showDialog(
             context: context,
             builder: (_) => AlertDialog(
-              title: Text(l.Llanguage('deleteitem')),
+              title: Text(l.Llanguage('addQtitems')),
               content: Text(l.getLanguage() == "AR"
-                  ? 'تم حذف الماده بنجاح'
+                  ? 'تم اضافه الماده بنجاح'
                   : 'delete item is done..'),
             ));
         setState(() {
@@ -1107,7 +1134,7 @@ class _NotificationsState extends State<Qtitems> {
         showDialog(
             context: context,
             builder: (_) => AlertDialog(
-              title: Text(l.Llanguage('deleteitem')),
+              title: Text(l.Llanguage('addQtitems')),
               content: Text(l.Llanguage('anerror')),
             ));
       }
@@ -1117,7 +1144,7 @@ class _NotificationsState extends State<Qtitems> {
       await showDialog(
         context: context,
         builder: (context) => new AlertDialog(
-          title: new Text(l.Llanguage('deleteitem')),
+          title: new Text(l.Llanguage('addQtitems')),
           content: Text(l.Llanguage('anerror')+e.toString()),
           actions: <Widget>[],
         ),

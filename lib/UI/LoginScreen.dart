@@ -330,7 +330,7 @@ margin: EdgeInsets.only(top:Globalvireables.getDeviceType()=='tablet'? 44:0),
 
 SizedBox(height: 50,),
 
-                              SizedBox(
+                            /*  SizedBox(
 
                                child:   isMackOs?null:Align(
                                   alignment: Alignment.bottomCenter,
@@ -377,10 +377,10 @@ SizedBox(height: 50,),
                                             );
                                            if(didAuthenticate && check){
                                              prefs = await SharedPreferences.getInstance();
-                                           /*  Login(
+                                           *//*  Login(
                                              prefs.getString('username'),
                                              prefs.getString('password'),context
-                                             );*/
+                                             );*//*
                                           }else{
                                              showDialog(
                                                  context: context,
@@ -391,19 +391,19 @@ SizedBox(height: 50,),
                                            }
                                           } on PlatformException catch (e) {
                                             print("errorlogiin "+ e.message.toString());
-                                           /* if (e.code == auth_error.notEnrolled) {
+                                           *//* if (e.code == auth_error.notEnrolled) {
                                               // Add handling of no hardware here.
                                             } else if (e.code == auth_error.lockedOut ||
                                                 e.code == auth_error.permanentlyLockedOut) {
                                             } else {
                                              print("errorlogiin "+ e.message.toString());
-                                            }*/
+                                            }*//*
                                           }
 
                                         }),
                                   ),
                                 ),
-                             ),
+                             ),*/
 
                               SizedBox(height:Globalvireables.getDeviceType()=='tablet'?100: 14),
                               LanguageProvider.getLanguage()!='AR'?

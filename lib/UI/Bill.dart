@@ -612,7 +612,7 @@ var total=0.0;
         builder: (context) {
           return AlertDialog(
             title:
-                Center(child: Text(LanguageProvider.Llanguage('addclasses'))),
+                Center(child: Text(LanguageProvider.Llanguage('bill'))),
             content: SingleChildScrollView(
               child: Column(
                 children: [
@@ -1006,9 +1006,9 @@ SizedBox(height: 25,),
     showDialog(
         context: context,
         builder: (_) => AlertDialog(
-              title: Text(l.Llanguage('addclasses')),
+              title: Text(l.Llanguage('bill')),
               content: Text(l.getLanguage() == "AR"
-                  ? 'اضافه الاصناف ...'
+                  ? 'فاتوره البيع ...'
                   : 'Add class..'),
             ));
 
@@ -1042,9 +1042,9 @@ SizedBox(height: 25,),
         showDialog(
             context: context,
             builder: (_) => AlertDialog(
-                  title: Text(l.Llanguage('addclasses')),
+                  title: Text(l.Llanguage('bill')),
                   content: Text(l.getLanguage() == "AR"
-                      ? 'تم اضافه الصنف'
+                      ? 'تم الحفط'
                       : 'send class is done..'),
                 ));
       } else {
@@ -1052,7 +1052,7 @@ SizedBox(height: 25,),
         showDialog(
             context: context,
             builder: (_) => AlertDialog(
-                  title: Text(l.Llanguage('addclasses')),
+                  title: Text(l.Llanguage('bill')),
                   content: Text(l.Llanguage('anerror')),
                 ));
       }
@@ -1061,7 +1061,7 @@ SizedBox(height: 25,),
       await showDialog(
         context: context,
         builder: (context) => new AlertDialog(
-          title: new Text(l.Llanguage('addclasses')),
+          title: new Text(l.Llanguage('bill')),
           content: Text(l.Llanguage('anerror') + e.toString()),
           actions: <Widget>[],
         ),
